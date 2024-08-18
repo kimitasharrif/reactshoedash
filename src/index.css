@@ -11,3 +11,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+
+/* target the svg icons */
+svg{
+    color: brown;
+    font-size: 24px;
+    
+}
+
+/* sidebar.css */
+
+
+/* Adjust the main content to account for the fixed sidebar and topbar */
+.main-content {
+  margin-top: 120px; /* Combined height of sidebar and topbar */
+  padding: 20px;
+}

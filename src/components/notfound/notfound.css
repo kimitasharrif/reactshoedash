@@ -1,0 +1,25 @@
+.notfound-container {
+  text-align: center;
+  padding: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.notfound-container h1 {
+  font-size: 4em;
+  margin-bottom: 20px;
+}
+
+.notfound-container p {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.notfound-container a {
+  font-size: 1.2em;
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.notfound-container a:hover {
+  text-decoration: underline;
+}
