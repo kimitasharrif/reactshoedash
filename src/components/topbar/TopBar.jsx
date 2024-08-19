@@ -1,5 +1,6 @@
 import React from 'react'
 import './topbar.css'
+import '../../index.css'
 import { AiFillCalendar ,AiOutlineAppstore} from 'react-icons/ai'
 import { IoMdNotifications } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";

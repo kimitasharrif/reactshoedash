@@ -1,59 +1,63 @@
 
-.card-container {
+/* Main content area */
+.main-content {
+  margin-left: 10%; /* Space for sidebar */
+  width: 70%;
+  top: 10px;
+  bottom: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin-right: 0;
-  align-items: center;
-  width: 80%;
-  margin-left: 20%;
-  margin-top: 60px;
-  position: relative;
-  overflow: hidden;
-  overlay: none;
-
-}
-.form-control{
-  top: 70px;
-  bottom: 0px;
+  height: 100%; /* Ensure it takes up full height */
 }
 
+.search{
+  width: 70%;
+  bottom: 0%;
+}
 
+/* Scrollable table container */
+.table-container {
+  left: 0%;
+  top: 10px;
+  bottom: 10px;
+  right: 0%;
+  max-height: 90%; /* Set your desired max height */
+ /* Enable vertical scrolling */
+}
 
- table {
-  width: 75%;
+/* Styling for tables or other content */
+.table {
+  width: 100%;
+  left: 0%;
+  right: 10%;
   border-collapse: collapse;
-  margin-left: 20%;
-  margin-right: 0%;
-  margin-top: 100px;
-
- 
+  border: 1px solid #ddd; 
 }
 
-th, td {
-  padding: 8px;
+.table th, .table td {
+  padding: 5px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd; /* Border for table cells */
 }
 
-th {
-  background-color: #f2f2f2;
+.table th {
+  background-color: #f4f4f4; /* Background for table headers */
 }
 
-tr:nth-child(even) {
+.table-striped tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
 }
 
-tr:hover {
-  background-color: #ddd;
+.table-striped tbody tr:nth-child(even) {
+  background-color: #fff;
 }
 
-.shadow {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.text-warning, .text-danger, .text-info {
+  margin: 10px 0;
 }
 
-.p-4 {
-  padding: 16px;
+/* Ensure the input is styled correctly */
+.form-control {
+  width: 100%;
+  margin-bottom: 20px;
 }
-
-

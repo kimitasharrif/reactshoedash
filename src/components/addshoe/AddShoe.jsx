@@ -1,121 +1,158 @@
-// Import
-import { useState } from "react";
-import Layout from '../layout/Layout'
-import CheckSession from '../../helpers/CheckSession'
-import axiosInstanceToken from '../../helpers/axiosInstanceToken'
-import './addshoe.css'
-import '../../index.css'
-
+import React, { useState, useEffect } from 'react';
+import "./addshoe.css";
+import CheckSession from '../../helpers/CheckSession';
+import Layout from '../layout/Layout';
+import axiosInstanceToken from '../../helpers/axiosInstanceToken';
 
 const AddShoe = () => {
-    //Check if user is logged in
-    const { username, admin_id, access_token} = CheckSession()
+  const { username, admin_id, access_token } = CheckSession();
 
-    //Hooks
-    
-    const [category_id, setCategory] = useState(null)
-    const [name, setName] = useState(null)
-    const [price, setPrice] = useState(null)
-    const [description, setDescription] = useState(null)
-    const [brand, setBrand] = useState(null)
-    const [quantity, setQuantity] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const [success, setSuccess] = useState(null)
-    const [failure, setFailure] = useState(null)
-    const [selected, setSelected] = useState('')
-    
-    //handle select for gender
-    // const handleSelect = (e) => {
-    //     setSelected(e.target.value)   
-    // }//end
-    // console.log("Selected  " + selected)
-    
-        const submit = (e) => {
-        e.preventDefault();
-        //Ipdate Hooks
-        setLoading(true)
-        setSuccess(null)
-        setFailure(null)
-        console.log("submitting")
-            //Post data to API and provide the Body including the Lab ID
-            //The Lab ID is important to help the system know which lab the nurse added belong to
-            axiosInstanceToken.post('/addshoe', {
-                admin_id: admin_id,
-                category_id: category_id,
-                name: name,
-                price: price,
-                description: description,
-                brand: brand,
-                quantity: quantity
-            })
-            .then( (response)=> {
-                console.log(response.data);
-                setLoading(false)
-                setSuccess(response.data.message)
-                setCategory(''); setName('');  setPrice(''); setDescription(''); setBrand(''); setQuantity('');
-            
-            })
-            .catch((error)=> {
-                console.log(error.message);
-                setLoading(false)
-                setFailure(error.message);
-            });
+  // Hooks
+  const [categories, setCategories] = useState([]);
+  const [category_id, setCategory] = useState('');
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+  const [brand, setBrand] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [photo, setPhoto] = useState(null);  // Photo state
+
+  const [loading, setLoading] = useState(false);
+  const [failure, setFailure] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  useEffect(() => {
+    axiosInstanceToken.post("/categories")
+      .then((response) => {
+        setCategories(response.data);
+      })
+      .catch((error) => {
+        setFailure('Failed to fetch categories');
+      });
+  }, []);
+
+  const submit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccess(null);
+    setFailure(null);
+
+    const formData = new FormData();
+    formData.append('category_id', category_id);
+    formData.append('name', name);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('brand', brand);
+    formData.append('quantity', quantity);
+    if (photo) {
+      formData.append('photo', photo);  // Attach the photo file
     }
 
-    return (
-        <div>
-                <Layout/>
-                <div className="form" >
-                    <form onSubmit={submit} className="card shadow p-4">
-                        <div className="card-body">
-                                {loading  && <div className="text-warning"> Please Wait..</div>}
-                                {success && <div className="text-success"> {success}</div>}  
-                                {failure && <div className="text-danger"> { failure}</div>} 
-                                <input type="text" placeholder="Enter Shoe Name" value={name}
-                                    onChange={(e) => setName(e.target.value)} required
-                                className="form-control"/> <br /> 
-                                
-                                <input type="text" placeholder="Enter Category" value={category_id}
-                                    onChange={(e) => setCategory(e.target.value)} required
-                                className="form-control"/> <br />
-                              
-                                {/* <label htmlFor="">Your Gender</label><br />
-                                <input type="radio" value='Male'
-                                onChange={handleSelect}
-                                checked={ selected ==='Male'} />  Male<br />
-                        
-                                <input type="radio" value='Female'
-                                  onChange={handleSelect}
-                                  checked={ selected ==='Female'}/> Female<br /> */}
-                                    <input type="text" placeholder="Enter Price" value={price}
-                                    onChange={(e) => setPrice(e.target.value)} required
-                                className="form-control"/> <br />
+    // Debugging: Check formData content
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
 
-                                
-                                <input type="text" placeholder="Enter Description" value={description}
-                                    onChange={(e) => setDescription(e.target.value)} required
-                                className="form-control"/> <br />
-                                
-                                <input type="text" placeholder="Enter Brand" value={brand}
-                                    onChange={(e) => setBrand(e.target.value)} required
-                                className="form-control"/> <br />
+    axiosInstanceToken.post('/addshoe', formData)
+      .then((response) => {
+        setLoading(false);
+        setSuccess(response.data.Message);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setFailure(error.response?.data?.Message || error.message);
+      });
+  };
 
-                                 <input type="text" placeholder="Enter Quantity" value={quantity}
-                                    onChange={(e) => setQuantity(e.target.value)} required
-                                className="form-control"/> <br />
+  return (
+    <div>
+      <Layout />
+      <div className="form">
+        <form onSubmit={submit} className="card shadow p-4">
+          <div className="card-body">
+            {loading && <div className="text-warning">Please Wait..</div>}
+            {success && <div className="text-success">{success}</div>}
+            {failure && <div className="text-danger">{failure}</div>}
 
-                               
-                                
-                                
-                                <button className="btn btn-dark">Add Shoe</button>
-                        </div>
-                    </form>
-                </div>  
-        </div>
-        
-     );
+            <input
+              type="text"
+              placeholder="Enter Shoe Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="form-control"
+            /><br />
 
+            <select
+              value={category_id}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+              className="form-control"
+            >
+              <option value="">Select Category</option>
+              {categories.map((category) => (
+                <option key={category.category_id} value={category.category_id}>
+                  {category.category_name}
+                </option>
+              ))}
+            </select><br />
+
+            <input
+              type="text"
+              placeholder="Enter Price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              required
+              className="form-control"
+            /><br />
+
+            <input
+              type="text"
+              placeholder="Enter Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              className="form-control"
+            /><br />
+
+            <input
+              type="text"
+              placeholder="Enter Brand"
+              value={brand}
+              onChange={(e) => setBrand(e.target.value)}
+              required
+              className="form-control"
+            /><br />
+
+            <input
+              type="text"
+              placeholder="Enter Quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              required
+              className="form-control"
+            /><br />
+
+            <input
+              type="file"
+              name="photo"  // Add the name attribute here
+              onChange={(e) => setPhoto(e.target.files[0])}
+              required
+              className="form-control"
+            /><br />
+
+            <button
+              type="submit"
+              className="btn btn-dark"
+              disabled={loading}  // Disable button while loading
+            >
+              Add Shoe
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
- 
 
 export default AddShoe;
