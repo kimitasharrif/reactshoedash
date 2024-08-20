@@ -5,91 +5,110 @@ import CheckSession from "../../helpers/CheckSession";
 import axiosInstanceToken from "../../helpers/axiosInstanceToken";
 
 const Shoes = () => {
-// check if user is logged in
-      const { username, admin_id,  access_token } = CheckSession();
+  // check if user is logged in
+  const { username, admin_id, access_token } = CheckSession();
 
-      const [loading, setLoading] = useState(false);
-      const [shoes, setShoes] = useState([]);
-      const [failure, setFailure] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [shoes, setShoes] = useState([]);
+  const [failure, setFailure] = useState(null);
 
-      //filter data
-      const [filterdata, setFilterData] = useState([])
+  // filter data
+  const [filterdata, setFilterData] = useState([]);
 
-      //searchh query
-      const [query, setQuery] = useState('')
+  // search query
+  const [query, setQuery] = useState("");
 
-      //function to handle live search
-      const handleSearch =(value)=>{
-        // the value is the text that yyou are typing 
-        setQuery(value)
-        // check if lab test are not empty 
-        const filterResult = shoes && shoes.filter((item)=> item.name.toLowerCase().includes(value.toLowerCase()))
-        // update set Filtered data with teh filterd items 
-        setFilterData(filterResult)
-      }
+  // function to handle live search
+  const handleSearch = (value) => {
+    setQuery(value);
+    const filterResult =
+      shoes && shoes.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
+    setFilterData(filterResult);
+  };
 
-useEffect(() => {
+  // function to delete all shoes
+  const deleteAllShoes = () => {
     setLoading(true);
     axiosInstanceToken
-    .get("/shoes", {
-  
-})
-    .then((response) => {
-    // console.log(response.data)
-    setShoes(response.data);
-    setFilterData(response.data);
-    // console.log(labtests)
-    setLoading(false);
-})
-    .catch((error) => {
-    setLoading(false);
-    setFailure(error.message);
-});
-}, []);
-if (loading) {
+      .delete("/deleteallshoe")
+      .then(() => {
+        setShoes([]);
+        setFilterData([]);
+        setFailure(null);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setFailure(error.message);
+      });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    axiosInstanceToken
+      .get("/shoes")
+      .then((response) => {
+        setShoes(response.data);
+        setFilterData(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setFailure(error.message);
+      });
+  }, []);
+
+  if (loading) {
     return <p>Loading...... please wait.</p>;
   }
-  // console.log(labtests)
 
-return (
-<div >
-<Layout />
-
- <div className="card-container">
-   {loading && <p className="text-warning">Loading ... </p>}
+  return (
+    <div>
+      <Layout />
+      <div className="card-container">
+        {loading && <p className="text-warning">Loading ... </p>}
         {failure && <p className="text-danger">Error occurred. Try later.</p>}
-        <input type="text" placeholder="Search by shoe name" className="form-control mb-0" value={query} onChange={(e)=>handleSearch(e.target.value)}/>
+        <button onClick={deleteAllShoes} className="btn btn-danger mb-3">
+          Delete All Shoes
+        </button>
+        <input
+          type="text"
+          placeholder="Search by shoe name"
+          className="form-control mb-0"
+          value={query}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
         {shoes?.length > 0 ? (
-      <table className="table table-striped bg-light p-5 m-1">
-        <thead>
-          <tr>
-            <th>Category_id</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Brand</th>
-            <th>Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filterdata?.map((shoe, index) => (
-            <tr className="mt-5" key={index}>
-               <td>{shoe.category_id}</td>
-              <td>{shoe.name}</td>
-              <td>{shoe.price}</td>
-              <td>{shoe.description}</td>
-              <td>{shoe.brand}</td>
-              <td>{shoe.quantity}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      ):
-        (<p className="text-info" >No Shoe found</p>)
-    }
+          <table className="table table-striped bg-light p-5 m-1">
+            <thead>
+              <tr>
+                <th>Category_id</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Brand</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filterdata?.map((shoe, index) => (
+                <tr className="mt-5" key={index}>
+                  <td>{shoe.category_id}</td>
+                  <td>{shoe.name}</td>
+                  <td>{shoe.price}</td>
+                  <td>{shoe.description}</td>
+                  <td>{shoe.brand}</td>
+                  <td>{shoe.quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-info">No Shoe found</p>
+        )}
+      </div>
     </div>
-</div>
-);
+  );
 };
 
 export default Shoes;
