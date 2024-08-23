@@ -4,8 +4,7 @@ import axiosInstance from '../../helpers/axiosInstance';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const [username, setusername] = useState('');
-  const [permit, setPermit] = useState('');
+  const [username, setusername] = useState(''); 
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -74,8 +73,8 @@ const Signup = () => {
             type="text"
             id="username"
             placeholder='Enter admin Name'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setusername(e.target.value)}
             required
           />
         </div>
@@ -83,7 +82,7 @@ const Signup = () => {
           <input
             type="email"
             id="email"
-            placeholder='Enter Lab Email'
+            placeholder='Enter admin Email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -112,7 +111,7 @@ const Signup = () => {
         <button type="submit">Sign Up</button>
         <Link to="/signin">Already have an Account? Login</Link>
       </form>
-      {name}
+      {username}
       <br />
       {email}
       <br />
