@@ -36,9 +36,12 @@ const Orders = () => {
     );
     setFilterData(filterResult);
   };
+   if (loading) {
+    return <p>Loading...... please wait.</p>;
+  }
 
   return (
-    <div>
+    <div >
       <Layout />
       <div className="main-content">
         <div>

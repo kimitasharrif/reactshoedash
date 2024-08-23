@@ -6,10 +6,14 @@ import { IoMdNotifications } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import CheckSession from '../../helpers/CheckSession';
 import { IoMdRefresh } from "react-icons/io";
+import ReactLogout from '../../helpers/Logout';
+
 
 
 const TopBar = () => {
   const {username, admin_id, access_token} = CheckSession();
+const  {logout} = ReactLogout()
+
 
   // get lab name from local storage 
   const AdminName = localStorage.getItem("username")
@@ -21,21 +25,25 @@ const TopBar = () => {
       {/* right hand side */}
    <div className="topbar-content">
     
-    <div className="topbar_icon">
-      <button className="btn btn-light btn-sm" ><IoMdRefresh/></button>
-      {/* onClick={refresh} */}
-      </div>
      <div className="topbar-date">
-     <AiFillCalendar />
+     {/* <AiFillCalendar /> */}
     <span>User: {AdminName}</span>
      </div>
      <div className="topbar-icon">
-    <AiOutlineAppstore/>
-    <span>/</span>
-    <IoMdNotifications/>
+    {/* <AiOutlineAppstore/>
+    <span>/</span> */}
     <div className="topbar-image">
      <CgProfile/>
     </div>
+    <div>
+      <IoMdNotifications/>
+    </div>
+    
+  {/* logout division */}
+  {/* <div className="p-4 sidebar-logout"> */}
+      <button className="btn btn-dark btn-sm" onClick={logout}>Log Out</button>
+
+   {/* </div> */}
 
    </div>
     </div>

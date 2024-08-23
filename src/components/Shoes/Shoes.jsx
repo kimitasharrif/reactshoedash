@@ -87,6 +87,7 @@ const Shoes = () => {
                 <th>Price</th>
                 <th>Description</th>
                 <th>Brand</th>
+                <th>Image</th> {/* New Image column */}
                 <th>Quantity</th>
               </tr>
             </thead>
@@ -98,6 +99,9 @@ const Shoes = () => {
                   <td>{shoe.price}</td>
                   <td>{shoe.description}</td>
                   <td>{shoe.brand}</td>
+                  <td>
+                    <img src={shoe.photo}  style={{ width: "100px", height: "auto" }} />
+                  </td> {/* Display image */}
                   <td>{shoe.quantity}</td>
                 </tr>
               ))}

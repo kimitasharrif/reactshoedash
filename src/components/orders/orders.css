@@ -1,9 +1,9 @@
 
 /* Main content area */
 .main-content {
-  margin-left: 10%; /* Space for sidebar */
-  width: 70%;
-  top: 10px;
+   /* Space for sidebar */
+  width: 100%;
+  top: 80px;
   bottom: 10px;
   display: flex;
   flex-direction: column;
@@ -11,25 +11,24 @@
 }
 
 .search{
-  width: 70%;
+  width: 100%;
   bottom: 0%;
 }
 
 /* Scrollable table container */
 .table-container {
-  left: 0%;
-  top: 10px;
+  left: 0px;
   bottom: 10px;
   right: 0%;
-  max-height: 90%; /* Set your desired max height */
+  max-height: 100%; /* Set your desired max height */
  /* Enable vertical scrolling */
 }
 
 /* Styling for tables or other content */
 .table {
   width: 100%;
-  left: 0%;
-  right: 10%;
+  left: 0px;
+  right: 0px;
   border-collapse: collapse;
   border: 1px solid #ddd; 
 }

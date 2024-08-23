@@ -6,7 +6,7 @@
     top: 0;
     right: 0;
     background-color: rgb(229, 237, 243);
-    width: 80%;
+    width: 100%;
     overflow: auto;
     justify-content: space-between;
 }
@@ -36,12 +36,13 @@
     align-items: center;
     padding: 0.3rem;
     height: 10px;
-    background-color: white;
+    
 }
 /* topbar date span target ie. user*/
 .topbar-date span{
-    color: gray;
+    color:#5e4580;
     margin-left: 0.5rem;
+    text-size-adjust: 2 rem;
 }
 
 /* topbar icon */

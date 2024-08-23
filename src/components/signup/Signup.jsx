@@ -4,7 +4,7 @@ import axiosInstance from '../../helpers/axiosInstance';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Signup = () => {
-  const [name, setName] = useState('');
+  const [username, setusername] = useState('');
   const [permit, setPermit] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -23,9 +23,8 @@ const Signup = () => {
     setFailure(null); // Reset failure message before attempting signup
 
     try {
-      const response = await axiosInstance.post('/labsignup', {
-        lab_name: name,
-        permit_id: permit,
+      const response = await axiosInstance.post('/adminsignup', {
+        username: username,
         email: email,
         phone: phone,
         password: password,
@@ -35,22 +34,22 @@ const Signup = () => {
       setSuccess(response?.data?.message);
       setLoading(false);
 
-      if (response?.data?.access_token && response?.data?.member) {
-        // Save data to local storage
-        localStorage.setItem("lab_id", response.data.member.lab_id);
-        localStorage.setItem("lab_name", response.data.member.lab_name);
-        localStorage.setItem("email", response.data.member.email);
-        localStorage.setItem("permit_id", response.data.member.permit_id);
-        localStorage.setItem("phone", response.data.member.phone);
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("reg_date", response.data.member.reg_date);
+      // if (response?.data?.access_token && response?.data?.admin) {
+      //   // Save data to local storage
+      //   localStorage.setItem("lab_id", response.data.member.admin_id);
+      //   localStorage.setItem("lab_username", response.data.admin.username);
+      //   localStorage.setItem("email", response.data.admin.email);
+      //   localStorage.setItem("permit_id", response.data.admin.permit_id);
+      //   localStorage.setItem("phone", response.data.admin.phone);
+      //   localStorage.setItem("access_token", response.data.access_token);
+  
 
         // Redirect user to home page
         navigate("/");
-      } else {
+      // } else {
         // Signup failed
-        setFailure("Signup failed: Invalid response from server.");
-      }
+      //   setFailure("Signup failed: Invalid response from server.");
+      // }
     } catch (error) {
       setLoading(false);
       setFailure(error.response?.data?.message || "Signup failed: An error occurred.");
@@ -69,24 +68,14 @@ const Signup = () => {
       {/* Return response for failure */}
       {failure && <div className='failure'>{failure}</div>}
       <form onSubmit={handleSignup} className='card shadow p-3 pt-4'>
-        <h1>Register Lab</h1>
+        <h1>Register Admin</h1>
         <div className="form-group">
           <input
             type="text"
-            id="labName"
-            placeholder='Enter Lab Name'
+            id="username"
+            placeholder='Enter admin Name'
             value={name}
             onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            id="permitId"
-            placeholder='Enter Permit Id'
-            value={permit}
-            onChange={(e) => setPermit(e.target.value)}
             required
           />
         </div>
@@ -104,7 +93,7 @@ const Signup = () => {
           <input
             type="text"
             id="phone"
-            placeholder='Enter Lab Phone Number'
+            placeholder='Enter admin Phone Number'
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             required
@@ -114,7 +103,7 @@ const Signup = () => {
           <input
             type="password"
             id="password"
-            placeholder='Enter Lab Password'
+            placeholder='Enter admin Password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -125,13 +114,10 @@ const Signup = () => {
       </form>
       {name}
       <br />
-      {permit}
-      <br />
       {email}
       <br />
       {phone}
       <br />
-      {password}
     </section>
   );
 }

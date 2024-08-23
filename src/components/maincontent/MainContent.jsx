@@ -4,6 +4,10 @@ import CheckSession from '../../helpers/CheckSession';
 
 const MainContent = () => {
   const { username, admin_id, access_token } = CheckSession();
+
+  //  if (loading) {
+  //   return <p>Loading...... please wait.</p>;
+  // }
   return (
     <Layout>
       <section className="card-container">

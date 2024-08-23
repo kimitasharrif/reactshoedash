@@ -77,9 +77,11 @@ const Categories = () => {
     console.log("Update error:", error.response?.data?.message || error.message);
     setFailure(error.response?.data?.message || 'Failed to update category');
   });
-
-
-  };
+  
+ };
+  if (loading) {
+    return <p>Loading...... please wait.</p>;
+  }
 
   return (
     <div>
